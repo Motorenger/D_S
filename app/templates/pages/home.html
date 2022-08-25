@@ -6,9 +6,25 @@
     {% if user.is_authenticated %}
         
         {{ user.email }}
-        <a href="{% url 'account_logout' %}">Log out</al
+        <a href="{% url 'account_logout' %}">Log out</a>
     {% else %}
         <a href="{% url 'account_login' %}">Log in</a>
         
     {% endif %}
+
+    <div>
+        {% for product in products  %}
+            <p>{{product.name}}</p>   
+            {% for cat in product.cat_set.all %}
+                <p>Cat : {{cat.name}}</p>     
+            {% endfor %} 
+            <p>{{product.brand}}</p>      
+            <p>{{product.description}}</p>      
+            <p>{{product.price}}</p>      
+            <p>{{product.size_clothes_set.all}}</p>     
+            <p>{{product.size_foot}}</p>      
+        
+        {% endfor %}
+
+    </div>
 {% endblock content%}

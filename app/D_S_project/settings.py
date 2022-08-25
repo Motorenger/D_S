@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'products.apps.ProductsConfig',
     'pages.apps.PagesConfig',
+    'orders.apps.OrdersConfig',
 
 ]
 
@@ -63,8 +64,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'D_S_project.wsgi.application'
-
-
 
 
 DATABASES = {

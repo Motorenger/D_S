@@ -2,7 +2,7 @@ from asyncio import trsock
 from django.db import models
 from django.template.defaultfilters import slugify
 
-# todo add related_names to all relatons 
+# todo add related_names to all relations 
 
 class Brand(models.Model):
     name = models.CharField(max_length=100)
@@ -28,7 +28,6 @@ class Category(models.Model):
         return super().save(*args, **kwargs)
 
 
-# todo customize many to many table(add amount of items of each size)
 class SizeClothes(models.Model):
     class Sizes(models.TextChoices):
         S = "S", "Small"
@@ -54,7 +53,7 @@ class SizeFoot(models.Model):
 class Product(models.Model):
     
     name = models.CharField(max_length=100)
-    cat = models.ManyToManyField(Category, blank=True)
+    cat = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True)
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
@@ -81,7 +80,7 @@ class SizeClothesM2M(models.Model):
 
 class ProdPickture(models.Model):
     picture = models.ImageField(upload_to='prod_picktures/', blank=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name="prod_picktures", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.picture.url

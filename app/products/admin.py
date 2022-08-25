@@ -23,8 +23,6 @@ class ProductAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     form = CategoryForm
     list_display = ("name", "slug")
-    # prepopulated_fields = {"slug": ("name",)}
-
 
 
 admin.site.register(Product, ProductAdmin)
