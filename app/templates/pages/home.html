@@ -15,16 +15,18 @@
     <div>
         {% for product in products  %}
             <p>{{product.name}}</p>   
-            {% for cat in product.cat_set.all %}
-                <p>Cat : {{cat.name}}</p>     
-            {% endfor %} 
+            <p>Cat : {{product.cat}}</p>     
             <p>{{product.brand}}</p>      
             <p>{{product.description}}</p>      
             <p>{{product.price}}</p>      
-            <p>{{product.size_clothes_set.all}}</p>     
-            <p>{{product.size_foot}}</p>      
+           
+            <p>{{product.size_foot.all}}</p>      
         
+            {% for size in product.size_clothes.all %}
+                <p>{{ size.amount }}</p>
+            {% endfor %}
         {% endfor %}
-
+        
+        
     </div>
 {% endblock content%}

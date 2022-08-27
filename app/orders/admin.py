@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import (Cart, CartProductsM2M)
+from .models import (Cart, CartProductsM2M, Order)
 from .forms import CartForm
 
 
@@ -18,3 +18,4 @@ class CartAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Cart, CartAdmin)
+admin.site.register(Order)

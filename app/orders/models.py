@@ -12,6 +12,7 @@ class Cart(models.Model):
 
 
 class CartProductsM2M(models.Model):
+    
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     prod_clothes_size = models.CharField(max_length=50, choices=SizeClothes.Sizes.choices, blank=True, null=True)
@@ -20,3 +21,7 @@ class CartProductsM2M(models.Model):
 
     class Meta:
         verbose_name = "Product"
+
+
+class Order(Cart):
+    date = models.DateTimeField(auto_now_add=True)
