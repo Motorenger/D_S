@@ -7,6 +7,10 @@ from rest_framework import status
 from products.models import Product, Category
 from products.serializers import ProductSerializer, CategotySerializer
 
+from orders.models import Cart 
+from orders.serializers import CartSerializer
+
+
 
 class ProductList(APIView):
     
@@ -91,3 +95,21 @@ class CategoryDetail(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CartList(APIView):
+    
+    def get(self, request):
+        categories = Cart.objects.all()
+        serializer = CartSerializer(categories, many=True, context={'request': request})
+
+        return Response(serializer.data)
+
+    def post(self, request):
+        serizializer = CartSerializer(data=request.data)
+        if serizializer.is_valid():
+            serizializer.save()
+
+            return Response(serizializer.data)
+        else:
+            return Response(serizializer.errors)
