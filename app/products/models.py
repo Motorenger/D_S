@@ -53,7 +53,7 @@ class SizeFoot(models.Model):
 class Product(models.Model):
     
     name = models.CharField(max_length=100)
-    cat = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True)
+    cat = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, related_name="products")
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
