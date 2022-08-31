@@ -74,7 +74,7 @@ class CategoryList(APIView):
 
 class CategoryDetail(APIView):
 
-    def get_product(self, pk):
+    def get_category(self, pk):
         try:
             return Category.objects.get(pk=pk)
         except Category.DoesNotExist:
@@ -82,14 +82,14 @@ class CategoryDetail(APIView):
 
 
     def get(self, request, pk):
-        product = self.get_product(pk)
-        serializer = CategotySerializer(product, context={'request': request})
+        category = self.get_category(pk)
+        serializer = CategotySerializer(category, context={'request': request})
 
         return Response(serializer.data)
 
     def put(self, request, pk):
-        product = self.get_product(pk)
-        serializer = CategotySerializer(product, data=request.data)
+        category = self.get_category(pk)
+        serializer = CategotySerializer(category, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -113,3 +113,28 @@ class CartList(APIView):
             return Response(serizializer.data)
         else:
             return Response(serizializer.errors)
+
+
+# class CartDetail(APIView):
+
+#     def get_cart(self, pk):
+#         try:
+#             return Cart.objects.get(pk=pk)
+#         except Category.DoesNotExist:
+#             raise Http404
+
+
+#     def get(self, request, pk):
+#         cart = self.get_cart(pk)
+#         serializer = CartSerializer(cart, context={'request': request})
+
+#         return Response(serializer.data)
+
+#     def put(self, request, pk):
+#         cart = self.get_product(pk)
+#         serializer = CartSerializer(cart, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         else:
+#             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -3,15 +3,28 @@ from rest_framework import serializers
 from .models import Cart, CartProductsM2M
 from products.models import Product
 
-class CartProductsSerializer(serializers.ModelSerializer):
+
+
+
+class CartProductsSerializer(serializers.HyperlinkedModelSerializer):
     
-    class Meta:
+    class Meta: 
         model = Product
-        fields = "__all__"
+        fields = ["url", "name", "description", "price", "brand"]
+
+
+class CartProductsM2MSerializer(serializers.ModelSerializer):
+    product = CartProductsSerializer()
+
+    class Meta:
+        model = CartProductsM2M
+        fields = ["product", "prod_clothes_size", "prod_foot_size", "amount"]
+        
+
 
 class CartSerializer(serializers.ModelSerializer):
-    products = CartProductsSerializer(read_only=True, many=True)
+    products = CartProductsM2MSerializer(many=True, source='cart_products_m2m')
 
-    class Meta:
+    class Meta: 
         model = Cart
-        fields = "__all__"
+        fields = ["id", "sum", "products"]
