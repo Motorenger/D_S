@@ -6,6 +6,7 @@ from products.models import Product
 
 
 
+
 class CartProductsSerializer(serializers.ModelSerializer):
     
     class Meta: 
@@ -17,7 +18,7 @@ class CartProductsM2MSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CartProductsM2M
-        exclude = ["product", "cart"]
+        exclude = ["cart"]
         
 
 
@@ -27,3 +28,12 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Cart
         fields = ["id", "user", "sum", "products"]
+
+
+class CartProductsM2MSerializerAdd(serializers.ModelSerializer):
+    '''
+     Serializer for adding products to cart
+    '''
+    class Meta:
+        model = CartProductsM2M
+        exclude = ["product", "cart"]

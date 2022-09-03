@@ -10,7 +10,7 @@ from products.models import Product, Category
 from products.serializers import ProductSerializer, CategotySerializer
 
 from orders.models import Cart, CartProductsM2M
-from orders.serializers import CartSerializer, CartProductsM2MSerializer
+from orders.serializers import CartSerializer, CartProductsM2MSerializer, CartProductsM2MSerializerAdd
 
 
 
@@ -58,7 +58,7 @@ class ProductDetail(APIView):
 
 
 class CartAddProdAPIView(generics.CreateAPIView):
-    serializer_class = CartProductsM2MSerializer
+    serializer_class = CartProductsM2MSerializerAdd
 
 
     def perform_create(self, serializer):
