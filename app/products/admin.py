@@ -28,6 +28,4 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Brand)
-admin.site.register(SizeClothes)
 admin.site.register(SizeFoot)
-admin.site.register(SizeClothesM2M)

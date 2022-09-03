@@ -15,7 +15,12 @@ class CartAdmin(admin.ModelAdmin):
         CartProductsM2MInline,
         ]
 
+class OrderAdmin(admin.ModelAdmin):
+    inlines = [
+        CartProductsM2MInline,
+    ]
 
 
 admin.site.register(Cart, CartAdmin)
-admin.site.register(Order)
+admin.site.register(Order, OrderAdmin)
+admin.site.register(CartProductsM2M)

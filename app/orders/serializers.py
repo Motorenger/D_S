@@ -6,25 +6,24 @@ from products.models import Product
 
 
 
-class CartProductsSerializer(serializers.HyperlinkedModelSerializer):
+class CartProductsSerializer(serializers.ModelSerializer):
     
     class Meta: 
         model = Product
-        fields = ["url", "name", "description", "price", "brand"]
+        fields = ["id"]
 
 
 class CartProductsM2MSerializer(serializers.ModelSerializer):
-    product = CartProductsSerializer()
 
     class Meta:
         model = CartProductsM2M
-        fields = ["product", "prod_clothes_size", "prod_foot_size", "amount"]
+        exclude = ["product", "cart"]
         
 
 
 class CartSerializer(serializers.ModelSerializer):
-    products = CartProductsM2MSerializer(many=True, source='cart_products_m2m')
+    products = CartProductsM2MSerializer(many=True, source='cart_products_m2m', read_only=True)
 
     class Meta: 
         model = Cart
-        fields = ["id", "sum", "products"]
+        fields = ["id", "user", "sum", "products"]
