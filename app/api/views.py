@@ -62,9 +62,13 @@ class CartAddProdAPIView(generics.CreateAPIView):
 
 
     def perform_create(self, serializer):
+        
         product = Product.objects.get(pk=self.kwargs.get("pk"))
         cart = Cart.objects.get(user=self.request.user.pk)
-        serializer.save(product=product, cart=cart)
+        if serializer:
+            serializer.save(product=product, cart=cart)
+            cart.sum += serializer.validated_data["amount"] * product.price
+            cart.save()
 
 
 

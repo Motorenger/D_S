@@ -18,7 +18,7 @@ class CartProductsM2MSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CartProductsM2M
-        exclude = ["cart"]
+        exclude = ["id","cart"]
         
 
 

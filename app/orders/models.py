@@ -10,7 +10,6 @@ class Cart(models.Model):
     products = models.ManyToManyField(Product, through="CartProductsM2M", related_name='prod_in_cart', blank=True)
     sum = models.DecimalField(max_digits=6, decimal_places=2)
 
-
 class CartProductsM2M(models.Model):
     
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
