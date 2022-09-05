@@ -10,8 +10,10 @@ from products.models import Product, Category
 from products.serializers import ProductSerializer, CategotySerializer
 
 from orders.models import Cart, CartProductsM2M
-from orders.serializers import CartSerializer, CartProductsM2MSerializer, CartProductsM2MSerializerAdd
+from orders.serializers import (CartSerializer, CartProductsM2MSerializerAdd, 
+                                OrderSerializer)
 
+from users.models import CustomUser
 
 
 class ProductList(APIView):
@@ -155,3 +157,18 @@ class CartDetail(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class OrdersPlaceOrder(generics.CreateAPIView):
+    serializer_class = OrderSerializer
+
+
+    def perform_create(self, serializer):
+        product = Product.objects.get(pk=10)
+        user=CustomUser.objects.get(pk=self.request.user.pk)
+        cart = Cart.objects.get(pk=9)
+        print(cart.products.all()) 
+
+        if serializer:
+            serializer.save(sum=cart.sum, user=user)
+            

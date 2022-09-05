@@ -1,20 +1,10 @@
 from rest_framework import serializers 
 
-from .models import Cart, CartProductsM2M
+from .models import Cart, CartProductsM2M, Order
 from products.models import Product
 
 
-
-
-
-class CartProductsSerializer(serializers.ModelSerializer):
-    
-    class Meta: 
-        model = Product
-        fields = ["id"]
-
-
-class CartProductsM2MSerializer(serializers.ModelSerializer):
+class CartAndOrderProductsM2MSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CartProductsM2M
@@ -23,11 +13,16 @@ class CartProductsM2MSerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
-    products = CartProductsM2MSerializer(many=True, source='cart_products_m2m', read_only=True)
+    products = CartAndOrderProductsM2MSerializer(many=True, source='cart_products_m2m', read_only=True)
 
     class Meta: 
         model = Cart
         fields = ["id", "user", "sum", "products"]
+    
+    # todo add feature to update amount value thorugh cart detail  
+    # def update(self, instance, validated_data):
+    #     return instance
+        
 
 
 class CartProductsM2MSerializerAdd(serializers.ModelSerializer):
@@ -37,3 +32,12 @@ class CartProductsM2MSerializerAdd(serializers.ModelSerializer):
     class Meta:
         model = CartProductsM2M
         exclude = ["product", "cart"]
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    products = CartAndOrderProductsM2MSerializer(many=True, source='cart_products_m2m', read_only=True)
+    
+    class Meta: 
+        model = Order
+        # fields = ["id", "user", "sum", "products", "approved", "date"]
+        fields = ["id", "products",]

@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from .views import (ProductList, ProductDetail, CategoryList,
                     CategoryDetail, CartList, CartDetail,
-                    CartAddProdAPIView,
+                    CartAddProdAPIView, OrdersPlaceOrder,
                     )
 
 
@@ -19,4 +19,5 @@ urlpatterns = [
     path('carts/list', CartList.as_view()),
     path('carts/<int:pk>', CartDetail.as_view(), name="cart-detail"),
 
+    path('orders/place-order', OrdersPlaceOrder.as_view()),
 ]
