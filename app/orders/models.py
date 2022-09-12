@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 
 from products.models import Product, SizeClothes, SizeFoot
 
-# todo add auto sum calculation
 
 class Cart(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='cart')
@@ -24,3 +23,7 @@ class CartProductsM2M(models.Model):
 
 class Order(Cart):
     date = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.sum}, {self.date.strftime("%Y-%m-%d")}'
