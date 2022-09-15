@@ -1,10 +1,18 @@
 from rest_framework import serializers
 
-from .models import Product, Category
+from .models import Product, Category, Brand
 
 
-class ProductSerializer(serializers.HyperlinkedModelSerializer):
+class BrandSerializer(serializers.Serializer):
+
+    class Meta:
+        model = Brand
+        fields = ['id', 'name',]
+
+class ProductSerializer(serializers.ModelSerializer):
     
+    brand = BrandSerializer(read_only=True)
+
     class Meta:
         model = Product
         fields = "__all__"

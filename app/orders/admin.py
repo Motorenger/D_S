@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import (Cart, CartProductsM2M, Order)
+from .models import (Cart, CartProductsM2M, Order, OrderProductsM2M)
 from .forms import CartForm
 
 
@@ -15,9 +15,14 @@ class CartAdmin(admin.ModelAdmin):
         CartProductsM2MInline,
         ]
 
+
+class OrderProductsM2MInline(admin.TabularInline):
+    model = OrderProductsM2M
+    extra = 1 
+
 class OrderAdmin(admin.ModelAdmin):
     inlines = [
-        CartProductsM2MInline,
+        OrderProductsM2MInline,
     ]
 
 

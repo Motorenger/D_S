@@ -2,13 +2,17 @@ from rest_framework import serializers
 
 from .models import Cart, CartProductsM2M, Order
 from products.models import Product
+from products.serializers import ProductSerializer
 
 
 class CartAndOrderProductsM2MSerializer(serializers.ModelSerializer):
 
+    id = serializers.IntegerField(source='product.id')
+    name = serializers.CharField(source='product.name')
+
     class Meta:
         model = CartProductsM2M
-        exclude = ["id","cart"]
+        exclude = ["cart"]
         
 
 
@@ -37,7 +41,13 @@ class CartProductsM2MSerializerAdd(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     products = CartAndOrderProductsM2MSerializer(many=True, source='cart_products_m2m', read_only=True)
     
+    def create(self, validated_data):
+        products = validated_data.pop('products')
+        order = Order.objects.create(**validated_data)
+        print(validated_data)
+        return order
+
     class Meta: 
         model = Order
         # fields = ["id", "user", "sum", "products", "approved", "date"]
-        fields = ["id", "products",]
+        fields = ["id", "products", "approved"]

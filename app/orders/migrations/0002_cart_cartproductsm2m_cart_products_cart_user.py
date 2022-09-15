@@ -7,31 +7,27 @@ import django.db.models.deletion
 
 class Migration(migrations.Migration):
 
-    initial = True
-
     dependencies = [
         ('products', '0013_alter_product_cat'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('orders', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Order',
+            name='Cart',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('sum', models.DecimalField(decimal_places=2, max_digits=6)),
-                ('date', models.DateTimeField(auto_now_add=True)),
-                ('approved', models.BooleanField(default=False)),
-                ('buyer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='orders', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
-            name='OrderProductsM2M',
+            name='CartProductsM2M',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('prod_clothes_size', models.CharField(blank=True, choices=[('S', 'Small'), ('M', 'Medium'), ('L', 'Large'), ('XL', 'Large Large'), ('XXL', 'XLarge XLarge'), ('OutOfStock', 'OutOfStock')], max_length=50, null=True)),
                 ('amount', models.IntegerField(default=1)),
-                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='order_products_m2m', to='orders.order')),
+                ('cart', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='cart_products_m2m', to='orders.cart')),
                 ('prod_foot_size', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='products.sizefoot')),
                 ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='products.product')),
             ],
@@ -40,8 +36,13 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.AddField(
-            model_name='order',
+            model_name='cart',
             name='products',
-            field=models.ManyToManyField(blank=True, related_name='prod_in_order', through='orders.OrderProductsM2M', to='products.product'),
+            field=models.ManyToManyField(blank=True, related_name='prod_in_cart', through='orders.CartProductsM2M', to='products.product'),
+        ),
+        migrations.AddField(
+            model_name='cart',
+            name='user',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='cart', to=settings.AUTH_USER_MODEL),
         ),
     ]

@@ -159,16 +159,17 @@ class CartDetail(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class OrdersPlaceOrder(generics.CreateAPIView):
+class PlaceOrder(generics.CreateAPIView):
     serializer_class = OrderSerializer
 
 
     def perform_create(self, serializer):
-        product = Product.objects.get(pk=10)
+        product = Product.objects.get(pk=1)
         user=CustomUser.objects.get(pk=self.request.user.pk)
-        cart = Cart.objects.get(pk=9)
-        print(cart.products.all()) 
+        cart = Cart.objects.get(id=1)
 
         if serializer:
-            serializer.save(sum=cart.sum, user=user)
-            
+            serializer.save(sum=cart.sum, buyer=user, products=cart.products.all())
+            print(serializer.data)
+            print(cart.products.all())
+
