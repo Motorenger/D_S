@@ -43,8 +43,11 @@ class OrderSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         products = validated_data.pop('products')
+        cart = Cart.objects.get(user=validated_data['buyer'])
         order = Order.objects.create(**validated_data)
-        print(validated_data)
+        for product in cart.products.all():
+            order.products.add(product)
+        
         return order
 
     class Meta: 

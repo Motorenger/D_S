@@ -164,12 +164,11 @@ class PlaceOrder(generics.CreateAPIView):
 
 
     def perform_create(self, serializer):
-        product = Product.objects.get(pk=1)
         user=CustomUser.objects.get(pk=self.request.user.pk)
         cart = Cart.objects.get(id=1)
 
         if serializer:
             serializer.save(sum=cart.sum, buyer=user, products=cart.products.all())
-            print(serializer.data)
-            print(cart.products.all())
+
+
 
