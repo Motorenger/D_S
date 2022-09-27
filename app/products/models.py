@@ -1,8 +1,8 @@
-from asyncio import trsock
 from django.db import models
 from django.template.defaultfilters import slugify
 
 # todo add related_names to all relations 
+
 
 class Brand(models.Model):
     name = models.CharField(max_length=100)
@@ -38,13 +38,18 @@ class SizeClothes(models.Model):
         OutOfStock = "OutOfStock", "OutOfStock"
         
     size = models.CharField(max_length=100, choices=Sizes.choices, default=Sizes.OutOfStock)
- 
+    
+    class Meta:
+        verbose_name_plural = "SizeClothes"
+
     def __str__(self):
         return self.size 
 
 # toto add size choices 
 class SizeFoot(models.Model):
     size = models.DecimalField(max_digits=3, decimal_places=1, default=0)
+
+
 
     def __str__(self):
         return str(self.size)
@@ -58,14 +63,13 @@ class Product(models.Model):
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=6, decimal_places=2)
 
-
     # sizes 
     size_clothes = models.ManyToManyField(SizeClothes, through="SizeClothesM2M",  through_fields=('product', 'size_clothes'), blank=True)
 
     size_foot = models.ManyToManyField(SizeFoot, blank=True)
 
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
