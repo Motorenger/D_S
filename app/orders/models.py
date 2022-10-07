@@ -7,7 +7,7 @@ from products.models import Product, SizeClothes, SizeFoot
 class Cart(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='cart')
     products = models.ManyToManyField(Product, through="CartProductsM2M", related_name='prod_in_cart', blank=True)
-    sum = models.DecimalField(max_digits=6, decimal_places=2)
+    sum = models.DecimalField(max_digits=6, decimal_places=2, default=0)
 
 class CartProductsM2M(models.Model):
     

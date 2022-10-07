@@ -1,7 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 
-# todo add related_names to all relations 
+# todo add related_names to all relations
 
 
 class Brand(models.Model):
@@ -14,7 +14,7 @@ class Brand(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    slug = models.SlugField(null=False, unique=True) 
+    slug = models.SlugField(null=False, unique=True)
 
     class Meta:
         verbose_name_plural = 'categories'
@@ -22,7 +22,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):   
+    def save(self, *args, **kwargs):  
         if not self.slug:
             self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
@@ -36,9 +36,9 @@ class SizeClothes(models.Model):
         XL = "XL", "Large Large"
         XXL = "XXL", "XLarge XLarge"
         OutOfStock = "OutOfStock", "OutOfStock"
-        
+
     size = models.CharField(max_length=100, choices=Sizes.choices, default=Sizes.OutOfStock)
-    
+
     class Meta:
         verbose_name_plural = "SizeClothes"
 
@@ -56,7 +56,7 @@ class SizeFoot(models.Model):
 
 
 class Product(models.Model):
-    
+
     name = models.CharField(max_length=100)
     cat = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, related_name="products")
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True, blank=True)
